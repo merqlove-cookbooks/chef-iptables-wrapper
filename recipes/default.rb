@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: stunnel-wrapper
+# Cookbook Name:: iptables-wrapper
 # Recipe:: default
 #
 # Copyright (c) 2015 Alexander Merkulov, All Rights Reserved.
@@ -8,9 +8,20 @@ include_recipe 'iptables::default'
 
 if platform_family?('rhel') && node['platform_version'].to_f >= 7
   service 'firewalld' do
-    action [:stop, :mask]
+    action [:stop]
+  end
+  %w(
+    /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service 
+    /etc/systemd/system/basic.target.wants/firewalld.service
+  ).each do |name|
+    file name do
+      action :delete
+    end  
   end
   service 'iptables' do
+    action [:enable, :start]
+  end
+  service 'ip6tables' do
     action [:enable, :start]
   end
 end
