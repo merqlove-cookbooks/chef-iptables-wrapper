@@ -18,10 +18,9 @@ if platform_family?('rhel') && node['platform_version'].to_f >= 7
       action :delete
     end  
   end
-  service 'iptables' do
-    action [:enable, :start]
-  end
-  service 'ip6tables' do
-    action [:enable, :start]
+  %(iptables ip6tables).each do |name|
+    service name do
+      action [:enable, :start]
+    end
   end
 end
