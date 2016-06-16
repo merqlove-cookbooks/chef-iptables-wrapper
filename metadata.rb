@@ -6,4 +6,4 @@ description 'Installs/Configures iptables'
 long_description 'Installs/Configures iptables'
 version '0.0.3'
 
-depends 'iptables', '>= 0.0.0'
+depends 'iptables', '>= 2.1.1'
